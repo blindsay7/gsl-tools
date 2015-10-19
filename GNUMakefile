@@ -1,0 +1,65 @@
+#
+# gsl wrappers
+#
+
+CFLAGS=-g
+YACC=yacc
+LDLIBS=`pkg-config --libs gsl` ./getCols.a
+GSL_TEMPL_PROGS=mean variance stddev min max median quantile skew kurtosis
+GSL_TEMPL_OBJS=${addsuffix .o,${GSL_TEMPL_PROGS}}
+MAP_TEMPL_PROGS=shift scale
+MAP_TEMPL_OBJS=${addsuffix .o,${MAP_TEMPL_PROGS}}
+TWO_COL_TEMPL_PROGS=linest correlation fitline
+TWO_COL_TEMPL_OBJS=${addsuffix .o,${TWO_COL_TEMPL_PROGS}}
+PROGS=${GSL_TEMPL_PROGS} ${MAP_TEMPL_PROGS} ${TWO_COL_TEMPL_PROGS}
+
+
+all : getCols.a ${PROGS}
+
+${GSL_TEMPL_OBJS} : gsl-template.c
+	${CC} ${CPPFLAGS} ${CFLAGS} -c -o ${@} ${<}
+
+${MAP_TEMPL_OBJS} : map-template.c
+	${CC} ${CPPFLAGS} ${CFLAGS} -c -o ${@} ${<}
+
+${TWO_COL_TEMPL_OBJS} : two_column-templ.c
+	${CC} ${CPPFLAGS} ${CFLAGS} -c -o ${@} ${<}
+
+mean.o : CFLAGS+=-DFUNC_NAME=gsl_stats_mean
+variance.o : CFLAGS+=-DFUNC_NAME=gsl_stats_variance
+stddev.o : CFLAGS+=-DFUNC_NAME=gsl_stats_sd
+min.o : CFLAGS+=-DFUNC_NAME=gsl_stats_min
+max.o : CFLAGS+=-DFUNC_NAME=gsl_stats_max
+median.o : CFLAGS+=-DFUNC_NAME=gsl_stats_median_from_sorted_data -DSORT_DATA
+quantile.o : CFLAGS+=-DFUNC_NAME=gsl_stats_quantile_from_sorted_data -DSORT_DATA -DSINGLE_ARG
+skew.o : CFLAGS+=-DFUNC_NAME=gsl_stats_skew
+kurtosis.o : CFLAGS+=-DFUNC_NAME=gsl_stats_kurtosis
+linest.o : CFLAGS+=-DOP_LINEST -DSINGLE_ARG
+correlation.o : CFLAGS+=-DOP_CORRELATION
+fitline.o : CFLAGS+=-DOP_FITLINE
+
+shift : LDLIBS=./getCols.a
+shift.o : CFLAGS+=-DOP_SHIFT
+
+scale : LDLIBS=./getCols.a
+scale.o : CFLAGS+=-DOP_SCALE
+
+
+%.h : %.y
+	${YACC} --defines ${^} -o ${*}.c
+
+%.c : %.y
+	${YACC} -o ${@} ${^}
+
+
+getCols.a : getCols.a( parse.o double_array.o double_matrix.o columns.o )
+
+
+#parse.o : columns.h
+
+
+clean :
+	rm -f ${PROGS} ${PROGSRCS} *.o columns.h getCols.a
+
+
+.PHONY : all clean
