@@ -30,3 +30,20 @@
 
 # Debug files
 *.dSYM/
+
+y.tab.h
+correlation/correlation
+fitline/fitline
+kurtosis/kurtosis
+linest/linest
+max/max
+mean/mean
+median/median
+min/min
+permutation/permutation
+quantile/quantile
+scale/scale
+shift/shift
+skew/skew
+stddev/stddev
+variance/variance
