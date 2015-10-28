@@ -40,11 +40,13 @@ Fit_Data *get_fit_data(const Double_Matrix *);
 double get_estimate(const Fit_Data *, double);
 #endif /* defined(OP_LINEST) */
 
+extern int yyparse(void *);
+
 Double_Matrix *data = NULL;
 
 int
 main(int argc, char *argv[]) {
-	size_t i = 0;
+	/*size_t i = 0;*/
 #if defined(SINGLE_ARG)
 	char *endptr = NULL;
 	double arg;

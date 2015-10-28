@@ -14,13 +14,14 @@
 # include <gsl/gsl_sort.h>
 #endif
 
-#include "y.tab.h"
+#include "columns.h"
 #include "double_matrix.h"
 
 #define SINGLE_STEP 1
 
 Double_Matrix *data = NULL;
 
+extern int yyparse(void);
 
 int
 main(int argc, char *argv[]) {

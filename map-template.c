@@ -11,6 +11,7 @@
 
 Double_Array *get_args( int, const char ** );
 bool args_OK( int, const Double_Array *, const Double_Matrix * );
+extern int yyparse(void *);
 void cleanup( Double_Array *, Double_Matrix * );
 void op_and_print( const Double_Array *, const Double_Matrix * );
 

@@ -9,6 +9,8 @@ static unsigned int line_no = 1;
 static unsigned int col_no = 0;
 extern Double_Matrix *data;
 
+int yylex();
+
 void yyerror(const char *str) {
 	fprintf(stderr, "error: %s on line %i\n", str, line_no);
 }

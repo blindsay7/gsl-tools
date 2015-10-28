@@ -1,5 +1,8 @@
+%option noinput
+%option nounput
+
 %{
-#include "y.tab.h"
+#include "columns.h"
 %}
 
 number [-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?
