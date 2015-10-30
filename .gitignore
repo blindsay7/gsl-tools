@@ -47,3 +47,5 @@ shift/shift
 skew/skew
 stddev/stddev
 variance/variance
+getcols/columns.[ch]
+getcols/parse.c
